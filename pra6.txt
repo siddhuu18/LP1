@@ -1,0 +1,52 @@
+import java.util.*;
+
+class SJF_RR {
+    public static void main(String[] args) {
+        int at[]={0,2,4,5};
+        int bt[]={7,4,1,4};
+        int n=4;
+        int wt[]=new int[n], tat[]=new int[n], rbt[]=bt.clone();
+        int time=0, done=0;
+
+        // SJF PREEMPTIVE
+        while(done<n){
+            int idx=-1,min=99;
+            for(int i=0;i<n;i++)
+                if(at[i]<=time && rbt[i]>0 && rbt[i]<min){
+                    min=rbt[i]; idx=i;
+                }
+            if(idx==-1){time++;continue;}
+            rbt[idx]--; time++;
+            if(rbt[idx]==0){
+                done++;
+                tat[idx]=time-at[idx];
+                wt[idx]=tat[idx]-bt[idx];
+            }
+        }
+
+        System.out.println("\nSJF Results:");
+        for(int i=0;i<n;i++)
+            System.out.println("P"+(i+1)+" WT="+wt[i]+" TAT="+tat[i]);
+
+        // ROUND ROBIN
+        int quantum=2;
+        rbt=bt.clone(); time=0; done=0;
+        while(done<n){
+            for(int i=0;i<n;i++){
+                if(rbt[i]>0){
+                    int exec=Math.min(quantum,rbt[i]);
+                    rbt[i]-=exec; time+=exec;
+                    if(rbt[i]==0){
+                        done++;
+                        tat[i]=time-at[i];
+                        wt[i]=tat[i]-bt[i];
+                    }
+                }
+            }
+        }
+
+        System.out.println("\nRound Robin:");
+        for(int i=0;i<n;i++)
+            System.out.println("P"+(i+1)+" WT="+wt[i]+" TAT="+tat[i]);
+    }
+}

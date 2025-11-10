@@ -1,0 +1,19 @@
+import java.util.*;
+
+class MacroPassTwo {
+    public static void main(String[] args) {
+
+        String MNT = "INCR";
+        String MDT[] = {"ADD &A, =1","MEND"};
+
+        String ic[] = {"START","INCR DATA","END"};
+
+        System.out.println("\nExpanded Code:");
+
+        for(String line : ic){
+            if(line.startsWith(MNT)){
+                System.out.println("ADD DATA,=1");
+            }else System.out.println(line);
+        }
+    }
+}

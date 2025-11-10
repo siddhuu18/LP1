@@ -1,0 +1,34 @@
+import java.util.*;
+
+class FCFS_Priority {
+    public static void main(String[] args) {
+        int at[]={0,1,2,3};
+        int bt[]={5,3,8,6};
+        int pr[]={2,1,4,3};
+        int n=4, wt[]=new int[n], tat[]=new int[n];
+
+        boolean done[]=new boolean[n];
+        int time=0;
+        for(int cnt=0;cnt<n;cnt++){
+            int idx=-1,min=99;
+            for(int i=0;i<n;i++)
+                if(!done[i] && at[i]<=time && pr[i]<min){
+                    min=pr[i]; idx=i;
+                }
+            if(idx==-1){time++;cnt--;continue;}
+            wt[idx]=time-at[idx];
+            time+=bt[idx];
+            tat[idx]=wt[idx]+bt[idx];
+            done[idx]=true;
+        }
+
+        System.out.println("Process WT TAT");
+        double awt=0,atat=0;
+        for(int i=0;i<n;i++){
+            System.out.println("P"+(i+1)+" "+wt[i]+" "+tat[i]);
+            awt+=wt[i]; atat+=tat[i];
+        }
+
+        System.out.println("Avg WT="+awt/n+"  Avg TAT="+atat/n);
+    }
+}

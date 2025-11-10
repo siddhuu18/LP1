@@ -1,0 +1,18 @@
+import java.util.*;
+
+class FIFO_LRU {
+    public static void main(String[] args) {
+        int ref[]={7,0,1,2,0,3,0,4,2,3,0,3,2};
+        int frames=3,fault=0;
+        ArrayList<Integer> mem=new ArrayList<>();
+
+        System.out.println("FIFO:");
+        for(int x:ref){
+            if(!mem.contains(x)){
+                if(mem.size()==frames) mem.remove(0);
+                mem.add(x); fault++;
+            }
+            System.out.println(mem+"  "+fault);
+        }
+    }
+}

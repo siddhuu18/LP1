@@ -1,0 +1,18 @@
+class Fit2 {
+    public static void main(String[] args) {
+        int block[]={100,500,200,300,600};
+        int process[]={212,417,112,426};
+
+        System.out.println("\nWorst Fit:");
+        int b[]=block.clone();
+        for(int p:process){
+            int idx=-1,max=-999;
+            for(int i=0;i<b.length;i++)
+                if(b[i]>=p && b[i]>max){
+                    max=b[i]; idx=i;
+                }
+            if(idx!=-1){System.out.println(p+" -> Block"+(idx+1)); b[idx]-=p;}
+            else System.out.println(p+" Not Allocated");
+        }
+    }
+}

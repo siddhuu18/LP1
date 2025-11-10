@@ -1,0 +1,26 @@
+import java.util.*;
+
+class FitStrategies {
+    static void bestFit(int block[], int process[]){
+        int b[]=block.clone();
+        System.out.println("\nBest Fit:");
+        for(int i=0;i<process.length;i++){
+            int idx=-1,min=999;
+            for(int j=0;j<b.length;j++)
+                if(b[j]>=process[i] && b[j]<min){
+                    min=b[j];idx=j;
+                }
+            if(idx!=-1){
+                System.out.println("P"+(i+1)+" -> Block"+(idx+1));
+                b[idx]-=process[i];
+            }
+            else System.out.println("P"+(i+1)+" Not Allocated");
+        }
+    }
+
+    public static void main(String[] args) {
+        int block[]={100,500,200,300,600};
+        int process[]={212,417,112,426};
+        bestFit(block,process);
+    }
+}
