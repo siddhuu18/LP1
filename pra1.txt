@@ -1,0 +1,72 @@
+import java.util.*;
+
+class PassOneAssembler {
+
+    static class Symbol {
+        String name;
+        int address;
+        Symbol(String n, int a){
+            name = n;
+            address = a;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        String code[] = {
+            "START 200",
+            "MOVER AREG, ='5'",
+            "ADD BREG, ONE",
+            "MOVEM AREG, TEMP",
+            "ONE DC 1",
+            "TEMP DS 1",
+            "END"
+        };
+
+        int lc = 0;
+        ArrayList<Symbol> symtab = new ArrayList<>();
+        ArrayList<String> intermediate = new ArrayList<>();
+
+        for(String line : code){
+            String parts[] = line.split("[ ,]+");
+
+            // START
+            if(parts[0].equals("START")){
+                lc = Integer.parseInt(parts[1]);
+                intermediate.add("(AD,01) (C,"+lc+")");
+            }
+
+            // END
+            else if(parts[0].equals("END")){
+                intermediate.add("(AD,02)");
+            }
+
+            // DC
+            else if(parts.length == 3 && parts[1].equals("DC")){
+                symtab.add(new Symbol(parts[0], lc));
+                intermediate.add("(DL,01) (C," + parts[2] + ")");
+                lc++;
+            }
+
+            // DS
+            else if(parts.length == 3 && parts[1].equals("DS")){
+                symtab.add(new Symbol(parts[0], lc));
+                lc += Integer.parseInt(parts[2]);
+            }
+
+            // Imperative Statements
+            else{
+                intermediate.add("(IS,XX) " + line);
+                lc++;
+            }
+        }
+
+        System.out.println("\nSymbol Table:");
+        for(Symbol s : symtab)
+            System.out.println(s.name + "\t" + s.address);
+
+        System.out.println("\nIntermediate Code:");
+        for(String ic : intermediate)
+            System.out.println(ic);
+    }
+}

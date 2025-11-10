@@ -1,0 +1,37 @@
+import java.util.*;
+
+class MacroPassOne {
+    public static void main(String[] args) {
+        String code[] = {
+            "MACRO",
+            "INCR &A",
+            "ADD &A, =1",
+            "MEND",
+            "START",
+            "INCR DATA",
+            "END"
+        };
+
+        List<String> MNT = new ArrayList<>();
+        List<String> MDT = new ArrayList<>();
+
+        boolean recording = false;
+        for(String line : code){
+            if(line.equals("MACRO")) recording=true;
+            else if(line.equals("MEND")){
+                MDT.add(line);
+                recording=false;
+            }
+            else if(recording){
+                if(MNT.size()==0) MNT.add(line);
+                MDT.add(line);
+            }
+        }
+
+        System.out.println("\nMNT:");
+        for(String s : MNT) System.out.println(s);
+
+        System.out.println("\nMDT:");
+        for(String s : MDT) System.out.println(s);
+    }
+}

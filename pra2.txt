@@ -1,0 +1,27 @@
+import java.util.*;
+
+class PassTwoAssembler {
+    public static void main(String[] args) {
+
+        String ic[] = {
+            "(AD,01)(C,100)",
+            "(IS,04)(1)(S,1)",
+            "(IS,01)(2)(S,2)",
+            "(IS,02)(1)(S,3)",
+            "(AD,02)"
+        };
+
+        int symbolTable[] = {100,101,102};
+
+        System.out.println("Object Code:");
+        for(String line : ic){
+            if(line.contains("IS")){
+                String parts[] = line.split("\\)");
+                int opcode = Integer.parseInt(parts[0].substring(4));
+                int reg = Integer.parseInt(parts[1].substring(1));
+                int addrIndex = Integer.parseInt(parts[2].substring(3));
+                System.out.println(opcode+" "+reg+" "+symbolTable[addrIndex-1]);
+            }
+        }
+    }
+}
